@@ -1,2 +1,3 @@
-.pkl
-.pkt
+# Ignore model and data files
+*.pkl
+*.pkt
