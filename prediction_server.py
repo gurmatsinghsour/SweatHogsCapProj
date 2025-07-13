@@ -18,7 +18,14 @@ from flask_cors import CORS
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, LabelEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+from huggingface_hub import InferenceClient
 from sklearn.base import BaseEstimator, TransformerMixin
+from transformers import (
+    pipeline,
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    set_seed
+)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -26,6 +33,32 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__, static_folder='static')
 CORS(app)  # Enable CORS for all routes
+
+# Set your Hugging Face API token here (get it from https://huggingface.co/settings/tokens)
+HF_API_TOKEN = os.getenv("HF_API_TOKEN")
+
+
+def generate_remedy_with_llm(user_info, diagnosis, confidence):
+    # Format dictionary to readable string
+    formatted_info = ", ".join(f"{k.replace('_', ' ')}: {v}" for k, v in user_info.items())
+    
+    prompt = (
+        f"Patient information: {formatted_info}\n"
+        f"Diagnosis: {diagnosis}\n"
+        f"Confidence score: {confidence:.2f}\n"
+        "Provide a general medical insight. Add a disclaimer: this is not medical advice.\n"
+        "Insight:"
+    )
+
+    # Load Falcon-RW-1B model and tokenizer
+    tokenizer = AutoTokenizer.from_pretrained("tiiuae/falcon-rw-1b")
+    model = AutoModelForCausalLM.from_pretrained("tiiuae/falcon-rw-1b")
+
+    generator = pipeline("text-generation", model=model, tokenizer=tokenizer)
+    set_seed(42)
+
+    output = generator(prompt, max_new_tokens=150, temperature=0.7, top_p=0.9)
+    return output[0]['generated_text']
 
 # Model architecture from Gurmat's work
 class SingleShotCNN(nn.Module):
@@ -319,13 +352,18 @@ def predict_readmission():
         
         # Make prediction
         result = predictor.predict(ml_payload)
-        
-        # Simple response with only confidence score
+
+        # Generate remedy/insight using LLM
+        # You can pass the input_data, diagnosis, and confidence score
+        diagnosis = input_data.get('diagnosis_1', 'Unknown')
+        remedy = generate_remedy_with_llm(input_data, diagnosis, result['risk_score'])
+
+        # Response with confidence score and remedy
         response = {
             'status': 'success',
-            'confidence_score': result['risk_score']
+            'confidence_score': result['risk_score'],
+            'remedy': remedy
         }
-        
         return jsonify(response)
         
     except Exception as e:
