@@ -1,22 +1,7 @@
 #!/usr/bin/env python3
 """
 PDF Report Generator for Medical Readmission Predictions
-
-This module creates professional PDF reports for medical readmission predictions.
-It integrates patient data, model predictions, AI-generated insights, and 
-visualizations into a comprehensive medical report suitable for healthcare
-professionals and academic presentation.
-
-Features:
-- Professional medical report formatting with institutional branding
-- Patient information tables with clinical data
-- Risk assessment visualizations and charts
-- AI-generated medical insights and recommendations
-- Humber College and team branding integration
-- Compliance with medical report standards
-
-The reports are generated using ReportLab for PDF creation and matplotlib
-for data visualizations, ensuring high-quality professional output.
+Creates professional medical reports with patient data, predictions, and AI-generated insights.
 """
 
 import os
@@ -24,7 +9,6 @@ from datetime import datetime
 from io import BytesIO
 import base64
 
-# ReportLab imports for PDF generation
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter, A4
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
@@ -35,10 +19,6 @@ from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT, TA_JUSTIFY
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 
-# Matplotlib imports for creating charts and visualizations
-# Configure matplotlib to use a non-GUI backend to prevent threading issues
-import matplotlib
-matplotlib.use('Agg')  # Use Anti-Grain Geometry backend (no GUI)
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from matplotlib.backends.backend_agg import FigureCanvasAgg
@@ -46,54 +26,24 @@ import numpy as np
 
 
 class MedicalReportPDF:
-    """
-    Professional PDF report generator for medical readmission predictions
-    
-    This class handles the creation of comprehensive medical reports that include:
-    - Patient demographic and clinical information
-    - Model prediction results and confidence scores
-    - Risk assessment visualizations
-    - AI-generated medical insights and recommendations
-    - Professional formatting with institutional branding
-    
-    The reports follow medical documentation standards and include appropriate
-    disclaimers for research and educational use.
-    """
-    
     def __init__(self):
-        """
-        Initialize the PDF report generator with custom styles
-        
-        Sets up the ReportLab document styles and creates custom formatting
-        styles for different sections of the medical report.
-        """
-        # Load default ReportLab styles as a starting point
         self.styles = getSampleStyleSheet()
-        
-        # Create custom styles for medical report formatting
         self.setup_custom_styles()
         
     def setup_custom_styles(self):
-        """
-        Setup custom paragraph styles for the medical report
-        
-        Creates professional styling for different sections of the report:
-        - Title and headers with institutional colors
-        - Body text with appropriate spacing and formatting
-        - Special styles for medical data and recommendations
-        """
-        # Main report title style with institutional blue color
+        """Setup custom paragraph styles for the report"""
+        # Title style
         self.styles.add(ParagraphStyle(
             name='ReportTitle',
             parent=self.styles['Title'],
             fontSize=24,
             spaceAfter=30,
-            textColor=colors.HexColor('#2C5282'),  # Professional blue
+            textColor=colors.HexColor('#2C5282'),
             alignment=TA_CENTER,
             fontName='Helvetica-Bold'
         ))
         
-        # Section header style for major report sections
+        # Subtitle style
         self.styles.add(ParagraphStyle(
             name='SectionHeader',
             parent=self.styles['Heading1'],
@@ -294,7 +244,7 @@ class MedicalReportPDF:
         institution_info = """
         <b>Humber College Institute of Technology & Advanced Learning</b><br/>
         <b>Capstone Project - Computer Programming</b><br/>
-        <b>Team SweatHogs:</b> Gurmat Singh Sour, Minh Nhat Mai, Yuvraj Grover, Robert Seibel, Mohammed Hasnain Ali
+        <b>Team SweatHogs:</b> Gurmat Singh, Minh Nhat Mai, Yuvraj Grover, Robert Seibel
         """
         institution_para = Paragraph(institution_info, self.styles['Institution'])
         story.append(institution_para)

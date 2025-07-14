@@ -3,9 +3,9 @@
 
 **Team Members:** 
 - Gurmat Singh - Deep Learning & Model Development
-- Minh Nguyen - Data Preprocessing & Feature Engineering  
-- Yuvraj Patel - Machine Learning & Model Optimization
-- Robert Johnson - Data Analysis & Model Validation
+- Minh Nhat Mai - Data Preprocessing & Feature Engineering  
+- Yuvraj Grover - Machine Learning & Model Optimization
+- Robert Seibel - Data Analysis & Model Validation
 
 ## Project Overview
 
@@ -276,9 +276,9 @@ The system analyzes:
 
 ## 👥 Development Team
 - **Gurmat Singh** - Deep Learning & Model Development
-- **Minh Nguyen** - Data Preprocessing & Feature Engineering  
-- **Yuvraj Patel** - Machine Learning & Model Optimization
-- **Robert Johnson** - Data Analysis & Model Validation
+- **Minh Nhat Mai** - Data Preprocessing & Feature Engineering  
+- **Yuvraj Grover** - Machine Learning & Model Optimization
+- **Robert Seibel** - Data Analysis & Model Validation
 
 ## 🎓 Academic Information
 - **Institution:** Humber College Institute of Technology & Advanced Learning
