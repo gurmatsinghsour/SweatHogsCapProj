@@ -9,9 +9,9 @@ starts the Flask web server.
 
 Team Members:
 - Gurmat Singh: Deep Learning & Model Development
-- Minh Nguyen: Data Preprocessing & Feature Engineering  
-- Yuvraj Patel: Machine Learning & Model Optimization
-- Robert Johnson: Data Analysis & Model Validation
+- Minh Nhat Mai: Data Preprocessing & Feature Engineering  
+- Yuvraj Grover: Machine Learning & Model Optimization
+- Robert Seibel: Data Analysis & Model Validation
 
 Usage:
     python app.py
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     print("SweatHogs Medical AI Prediction System")
     print("=" * 50)
     print("Humber College Capstone Project")
-    print("Team: Gurmat Singh, Minh Nguyen, Yuvraj Patel, Robert Johnson")
+    print("Team: Gurmat Singh, Minh Nhat Mai, Yuvraj Grover, Robert Seibel")
     print("=" * 50)
     
     # Initialize the machine learning model and preprocessing pipeline
