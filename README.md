@@ -159,7 +159,7 @@ The system provides three main endpoints for different use cases:
 
 **Request Body:** JSON with patient information
 
-## 📡 API Endpoints
+##  API Endpoints
 
 ### 1. Basic Prediction (JSON Response)
 ```bash
@@ -221,19 +221,19 @@ curl -X POST http://localhost:8080/predict_with_report \
 curl -o report.pdf http://localhost:8080/download_report/medical_report_20250714_164135.pdf
 ```
 
-## 🔧 Technical Stack
+##  Technical Stack
 - **Backend:** Flask, Python 3.8+
 - **AI/ML:** PyTorch, scikit-learn, Google Gemini API
 - **PDF Generation:** ReportLab, Matplotlib
 - **Data Processing:** Pandas, NumPy
 
-## 📊 Model Information
+##  Model Information
 - **Architecture:** Single-Shot CNN with genetic algorithm feature selection
 - **Input Features:** 188+ medical and demographic features
 - **Output:** Readmission risk probability (0-1) with calibrated confidence
 - **Performance:** Optimized using Optuna hyperparameter tuning
 
-## 🏥 Medical Features
+##  Medical Features
 The system analyzes:
 - Patient demographics (age, gender)
 - Hospital stay characteristics
@@ -268,19 +268,19 @@ The system analyzes:
 }
 ```
 
-## 🛡️ Important Disclaimers
+##  Important Disclaimers
 - This system is for educational and research purposes only
 - NOT intended for actual medical diagnosis or treatment
 - Always consult qualified healthcare professionals for medical decisions
 - Predictions are based on statistical models and may not account for all factors
 
-## 👥 Development Team
+##  Development Team
 - **Gurmat Singh** - Deep Learning & Model Development
 - **Minh Nhat Mai** - Data Preprocessing & Feature Engineering  
 - **Yuvraj Grover** - Machine Learning & Model Optimization
 - **Robert Seibel** - Data Analysis & Model Validation
 
-## 🎓 Academic Information
+##  Academic Information
 - **Institution:** Humber College Institute of Technology & Advanced Learning
 - **Program:** Computer Programming
 - **Project Type:** Capstone Project
