@@ -121,7 +121,7 @@
   </head>
   <body>
     <div class="container">
-      <h1>🏥 Medical Readmission Prediction</h1>
+      <h1>Medical Readmission Prediction</h1>
 
       <div class="api-info">
         <strong>API Endpoint:</strong> POST /predict<br />
@@ -423,7 +423,7 @@
             class="btn btn-secondary"
             onclick="loadSampleData()"
           >
-            📋 Load Sample Data
+            Load Sample Data
           </button>
           <button type="button" class="btn btn-secondary" onclick="clearForm()">
             🗑️ Clear Form
@@ -433,7 +433,7 @@
 
       <div id="result" class="result">
         <div id="loading" class="loading" style="display: none">
-          <p>🔄 Analyzing patient data...</p>
+          <p>Analyzing patient data...</p>
         </div>
         <div id="resultContent"></div>
       </div>
@@ -452,14 +452,14 @@
           const statusElement = document.getElementById("serverStatus");
           if (data.status === "healthy" && data.model_loaded) {
             statusElement.innerHTML =
-              '<span style="color: green;">✅ Online & Ready</span>';
+              '<span style="color: green;">Online & Ready</span>';
           } else {
             statusElement.innerHTML =
-              '<span style="color: orange;">⚠️ Partially Ready</span>';
+              '<span style="color: orange;">Partially Ready</span>';
           }
         } catch (error) {
           document.getElementById("serverStatus").innerHTML =
-            '<span style="color: red;">❌ Offline</span>';
+            '<span style="color: red;">Offline</span>';
         }
       }
 
@@ -562,7 +562,7 @@
               const riskClass = prediction.risk_level.toLowerCase();
 
               resultContent.innerHTML = `
-                        <h3>🎯 Prediction Results</h3>
+                        <h3>Prediction Results</h3>
                         <p><strong>Patient ID:</strong> ${result.patient_id}</p>
                         <p><strong>Encounter ID:</strong> ${
                           result.encounter_id
@@ -596,7 +596,7 @@
             } else {
               resultDiv.className = "result error";
               resultContent.innerHTML = `
-                        <h3>❌ Prediction Failed</h3>
+                        <h3>Prediction Failed</h3>
                         <p><strong>Error:</strong> ${
                           result.error || "Unknown error occurred"
                         }</p>
@@ -606,7 +606,7 @@
             loadingDiv.style.display = "none";
             resultDiv.className = "result error";
             resultContent.innerHTML = `
-                    <h3>❌ Connection Error</h3>
+                    <h3>Connection Error</h3>
                     <p><strong>Error:</strong> ${error.message}</p>
                     <p>Please check if the server is running on the correct port.</p>
                 `;
