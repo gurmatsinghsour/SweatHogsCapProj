@@ -6,6 +6,7 @@
 - Minh Nhat Mai - Data Preprocessing & Feature Engineering  
 - Yuvraj Grover - Machine Learning & Model Optimization
 - Robert Seibel - Data Analysis & Model Validation
+- Muhammed Hasnainali Saiyed - Data Preprocessing & Machine Learning
 
 ## Project Overview
 
