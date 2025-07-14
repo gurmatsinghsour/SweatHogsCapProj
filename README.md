@@ -243,7 +243,7 @@ The system analyzes:
 - Previous healthcare utilization
 - Diagnosis codes and medical conditions
 
-## 📋 Sample Patient Data Format
+## Sample Patient Data Format
 ```json
 {
   "age": "[50-60)",                    // Age bracket
