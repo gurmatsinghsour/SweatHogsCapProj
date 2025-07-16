@@ -217,7 +217,7 @@ The server runs locally and can be accessed on your network.
 
 ## Security Notes
 
-⚠️ **Important**: This is a development/demo server. For production deployment:
+**Important**: This is a development/demo server. For production deployment:
 
 1. Add authentication and authorization
 2. Implement rate limiting
