@@ -94,17 +94,30 @@
         border: 1px solid #f5c6cb;
         color: #721c24;
       }
-      .risk-high {
-        color: #dc3545;
+      .confidence-score {
+        font-size: 2em;
         font-weight: bold;
+        text-align: center;
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 8px;
       }
-      .risk-medium {
-        color: #fd7e14;
-        font-weight: bold;
+      .confidence-low {
+        background-color: #d1ecf1;
+        color: #0c5460;
       }
-      .risk-low {
-        color: #28a745;
-        font-weight: bold;
+      .confidence-medium {
+        background-color: #fff3cd;
+        color: #856404;
+      }
+      .confidence-high {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+      .confidence-very-high {
+        background-color: #d1ecf1;
+        color: #721c24;
+        border: 2px solid #dc3545;
       }
       .loading {
         text-align: center;
@@ -117,6 +130,13 @@
         margin-bottom: 20px;
         border-left: 4px solid #2196f3;
       }
+      .interpretation {
+        margin-top: 15px;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        border-left: 4px solid #17a2b8;
+      }
     </style>
   </head>
   <body>
@@ -125,7 +145,8 @@
 
       <div class="api-info">
         <strong>API Endpoint:</strong> POST /predict<br />
-        <strong>Model:</strong> Deep Learning CNN (based on Gurmat's work)<br />
+        <strong>Model:</strong> Deep Learning CNN with Temperature Scaling<br />
+        <strong>Features:</strong> 188 engineered features from 19 input parameters<br />
         <strong>Server Status:</strong>
         <span id="serverStatus">Checking...</span>
       </div>
@@ -135,65 +156,26 @@
           <h3>Patient Information</h3>
           <div class="form-group">
             <div class="input-group">
-              <label for="encounter_id">Encounter ID:</label>
-              <input
-                type="number"
-                id="encounter_id"
-                name="encounter_id"
-                value="2278392"
-              />
-            </div>
-            <div class="input-group">
-              <label for="patient_nbr">Patient Number:</label>
-              <input
-                type="number"
-                id="patient_nbr"
-                name="patient_nbr"
-                value="8222157"
-              />
-            </div>
-            <div class="input-group">
-              <label for="race">Race:</label>
-              <select id="race" name="race">
-                <option value="Caucasian" selected>Caucasian</option>
-                <option value="AfricanAmerican">African American</option>
-                <option value="Hispanic">Hispanic</option>
-                <option value="Asian">Asian</option>
-                <option value="Other">Other</option>
-                <option value="?">Unknown</option>
+              <label for="age">Age Range:</label>
+              <select id="age" name="age" required>
+                <option value="[0-10)">0-10 years</option>
+                <option value="[10-20)">10-20 years</option>
+                <option value="[20-30)">20-30 years</option>
+                <option value="[30-40)">30-40 years</option>
+                <option value="[40-50)">40-50 years</option>
+                <option value="[50-60)" selected>50-60 years</option>
+                <option value="[60-70)">60-70 years</option>
+                <option value="[70-80)">70-80 years</option>
+                <option value="[80-90)">80-90 years</option>
+                <option value="[90-100)">90-100 years</option>
               </select>
             </div>
             <div class="input-group">
               <label for="gender">Gender:</label>
-              <select id="gender" name="gender">
-                <option value="Female" selected>Female</option>
-                <option value="Male">Male</option>
+              <select id="gender" name="gender" required>
+                <option value="Male" selected>Male</option>
+                <option value="Female">Female</option>
               </select>
-            </div>
-            <div class="input-group">
-              <label for="age">Age Group:</label>
-              <select id="age" name="age">
-                <option value="[0-10)" selected>[0-10)</option>
-                <option value="[10-20)">[10-20)</option>
-                <option value="[20-30)">[20-30)</option>
-                <option value="[30-40)">[30-40)</option>
-                <option value="[40-50)">[40-50)</option>
-                <option value="[50-60)">[50-60)</option>
-                <option value="[60-70)">[60-70)</option>
-                <option value="[70-80)">[70-80)</option>
-                <option value="[80-90)">[80-90)</option>
-                <option value="[90-100)">[90-100)</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label for="weight">Weight:</label>
-              <input
-                type="text"
-                id="weight"
-                name="weight"
-                value="?"
-                placeholder="Weight or ?"
-              />
             </div>
           </div>
         </div>
@@ -202,75 +184,83 @@
           <h3>Admission Details</h3>
           <div class="form-group">
             <div class="input-group">
-              <label for="admission_type_id">Admission Type ID:</label>
-              <input
-                type="number"
-                id="admission_type_id"
-                name="admission_type_id"
-                value="6"
-              />
-            </div>
-            <div class="input-group">
-              <label for="discharge_disposition_id"
-                >Discharge Disposition ID:</label
-              >
-              <input
-                type="number"
-                id="discharge_disposition_id"
-                name="discharge_disposition_id"
-                value="25"
-              />
-            </div>
-            <div class="input-group">
-              <label for="admission_source_id">Admission Source ID:</label>
-              <input
-                type="number"
-                id="admission_source_id"
-                name="admission_source_id"
-                value="1"
-              />
-            </div>
-            <div class="input-group">
-              <label for="time_in_hospital">Time in Hospital:</label>
+              <label for="time_in_hospital">Time in Hospital (days):</label>
               <input
                 type="number"
                 id="time_in_hospital"
                 name="time_in_hospital"
-                value="1"
+                value="5"
+                min="1"
+                max="14"
+                required
               />
             </div>
             <div class="input-group">
-              <label for="payer_code">Payer Code:</label>
-              <input
-                type="text"
-                id="payer_code"
-                name="payer_code"
-                value="?"
-                placeholder="Payer code or ?"
-              />
+              <label for="admission_type">Admission Type:</label>
+              <select id="admission_type" name="admission_type" required>
+                <option value="1" selected>Emergency</option>
+                <option value="2">Urgent</option>
+                <option value="3">Elective</option>
+                <option value="4">Newborn</option>
+                <option value="5">Not Available</option>
+                <option value="6">NULL</option>
+                <option value="7">Trauma Center</option>
+                <option value="8">Not Mapped</option>
+              </select>
             </div>
             <div class="input-group">
-              <label for="medical_specialty">Medical Specialty:</label>
-              <input
-                type="text"
-                id="medical_specialty"
-                name="medical_specialty"
-                value="Pediatrics-Endocrinology"
-              />
+              <label for="discharge_disposition">Discharge Disposition:</label>
+              <select id="discharge_disposition" name="discharge_disposition" required>
+                <option value="1" selected>Discharged to home</option>
+                <option value="2">Discharged/transferred to another short term hospital</option>
+                <option value="3">Discharged/transferred to SNF</option>
+                <option value="6">Discharged/transferred to home with home health service</option>
+                <option value="7">Left AMA</option>
+                <option value="11">Expired</option>
+                <option value="18">NULL</option>
+                <option value="25">Not Mapped</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="admission_source">Admission Source:</label>
+              <select id="admission_source" name="admission_source" required>
+                <option value="1">Physician Referral</option>
+                <option value="2">Clinic Referral</option>
+                <option value="4">Transfer from a hospital</option>
+                <option value="7" selected>Emergency Room</option>
+                <option value="9">Not Available</option>
+                <option value="17">NULL</option>
+                <option value="20">Not Mapped</option>
+              </select>
             </div>
           </div>
         </div>
 
         <div class="form-section">
-          <h3>Medical Procedures & Tests</h3>
+          <h3>Medical Procedures & Medications</h3>
           <div class="form-group">
+            <div class="input-group">
+              <label for="num_medications">Number of Medications:</label>
+              <input
+                type="number"
+                id="num_medications"
+                name="num_medications"
+                value="15"
+                min="0"
+                max="81"
+                required
+              />
+            </div>
             <div class="input-group">
               <label for="num_lab_procedures">Number of Lab Procedures:</label>
               <input
                 type="number"
                 id="num_lab_procedures"
                 name="num_lab_procedures"
-                value="41"
+                value="25"
+                min="0"
+                max="132"
+                required
               />
             </div>
             <div class="input-group">
@@ -279,73 +269,10 @@
                 type="number"
                 id="num_procedures"
                 name="num_procedures"
-                value="0"
-              />
-            </div>
-            <div class="input-group">
-              <label for="num_medications">Number of Medications:</label>
-              <input
-                type="number"
-                id="num_medications"
-                name="num_medications"
-                value="1"
-              />
-            </div>
-            <div class="input-group">
-              <label for="number_outpatient">Number Outpatient:</label>
-              <input
-                type="number"
-                id="number_outpatient"
-                name="number_outpatient"
-                value="0"
-              />
-            </div>
-            <div class="input-group">
-              <label for="number_emergency">Number Emergency:</label>
-              <input
-                type="number"
-                id="number_emergency"
-                name="number_emergency"
-                value="0"
-              />
-            </div>
-            <div class="input-group">
-              <label for="number_inpatient">Number Inpatient:</label>
-              <input
-                type="number"
-                id="number_inpatient"
-                name="number_inpatient"
-                value="0"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div class="form-section">
-          <h3>Diagnosis & Lab Results</h3>
-          <div class="form-group">
-            <div class="input-group">
-              <label for="diag_1">Primary Diagnosis:</label>
-              <input type="text" id="diag_1" name="diag_1" value="250.83" />
-            </div>
-            <div class="input-group">
-              <label for="diag_2">Secondary Diagnosis:</label>
-              <input
-                type="text"
-                id="diag_2"
-                name="diag_2"
-                value="?"
-                placeholder="Diagnosis or ?"
-              />
-            </div>
-            <div class="input-group">
-              <label for="diag_3">Tertiary Diagnosis:</label>
-              <input
-                type="text"
-                id="diag_3"
-                name="diag_3"
-                value="?"
-                placeholder="Diagnosis or ?"
+                value="3"
+                min="0"
+                max="6"
+                required
               />
             </div>
             <div class="input-group">
@@ -354,86 +281,154 @@
                 type="number"
                 id="number_diagnoses"
                 name="number_diagnoses"
-                value="1"
+                value="5"
+                min="1"
+                max="16"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Patient History</h3>
+          <div class="form-group">
+            <div class="input-group">
+              <label for="number_inpatient">Previous Inpatient Visits:</label>
+              <input
+                type="number"
+                id="number_inpatient"
+                name="number_inpatient"
+                value="2"
+                min="0"
+                max="21"
+                required
               />
             </div>
             <div class="input-group">
-              <label for="max_glu_serum">Max Glucose Serum:</label>
-              <select id="max_glu_serum" name="max_glu_serum">
-                <option value="None" selected>None</option>
-                <option value="Norm">Normal</option>
-                <option value=">200">>200</option>
-                <option value=">300">>300</option>
+              <label for="number_outpatient">Previous Outpatient Visits:</label>
+              <input
+                type="number"
+                id="number_outpatient"
+                name="number_outpatient"
+                value="0"
+                min="0"
+                max="42"
+                required
+              />
+            </div>
+            <div class="input-group">
+              <label for="number_emergency">Previous Emergency Visits:</label>
+              <input
+                type="number"
+                id="number_emergency"
+                name="number_emergency"
+                value="1"
+                min="0"
+                max="76"
+                required
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Diabetes Management</h3>
+          <div class="form-group">
+            <div class="input-group">
+              <label for="diabetesMed">Diabetes Medication Prescribed:</label>
+              <select id="diabetesMed" name="diabetesMed" required>
+                <option value="Yes" selected>Yes</option>
+                <option value="No">No</option>
               </select>
             </div>
             <div class="input-group">
-              <label for="A1Cresult">A1C Result:</label>
-              <select id="A1Cresult" name="A1Cresult">
-                <option value="None" selected>None</option>
+              <label for="change">Medication Change:</label>
+              <select id="change" name="change" required>
+                <option value="Ch" selected>Changed</option>
+                <option value="No">No Change</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="A1Cresult">A1C Test Result:</label>
+              <select id="A1Cresult" name="A1Cresult" required>
+                <option value=">8" selected>>8% (High)</option>
+                <option value=">7">>7% (Elevated)</option>
                 <option value="Norm">Normal</option>
-                <option value=">7">>7</option>
-                <option value=">8">>8</option>
+                <option value="None">Not Tested</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="max_glu_serum">Max Glucose Serum:</label>
+              <select id="max_glu_serum" name="max_glu_serum" required>
+                <option value="Norm" selected>Normal</option>
+                <option value=">200">>200 mg/dL</option>
+                <option value=">300">>300 mg/dL</option>
+                <option value="None">Not Tested</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="insulin">Insulin Prescription:</label>
+              <select id="insulin" name="insulin" required>
+                <option value="Steady" selected>Steady</option>
+                <option value="Up">Increased</option>
+                <option value="Down">Decreased</option>
+                <option value="No">Not Prescribed</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="metformin">Metformin Prescription:</label>
+              <select id="metformin" name="metformin" required>
+                <option value="No" selected>Not Prescribed</option>
+                <option value="Steady">Steady</option>
+                <option value="Up">Increased</option>
+                <option value="Down">Decreased</option>
               </select>
             </div>
           </div>
         </div>
 
         <div class="form-section">
-          <h3>Medications</h3>
+          <h3>Primary Diagnosis</h3>
           <div class="form-group">
             <div class="input-group">
-              <label for="insulin">Insulin:</label>
-              <select id="insulin" name="insulin">
-                <option value="No" selected>No</option>
-                <option value="Up">Up</option>
-                <option value="Down">Down</option>
-                <option value="Steady">Steady</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label for="metformin">Metformin:</label>
-              <select id="metformin" name="metformin">
-                <option value="No" selected>No</option>
-                <option value="Up">Up</option>
-                <option value="Down">Down</option>
-                <option value="Steady">Steady</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label for="change">Medication Change:</label>
-              <select id="change" name="change">
-                <option value="No" selected>No</option>
-                <option value="Ch">Yes</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label for="diabetesMed">Diabetes Medication:</label>
-              <select id="diabetesMed" name="diabetesMed">
-                <option value="No" selected>No</option>
-                <option value="Yes">Yes</option>
+              <label for="diagnosis_1">Primary Diagnosis Code:</label>
+              <select id="diagnosis_1" name="diagnosis_1" required>
+                <option value="250" selected>250 - Diabetes mellitus</option>
+                <option value="428">428 - Heart failure</option>
+                <option value="414">414 - Coronary atherosclerosis</option>
+                <option value="401">401 - Essential hypertension</option>
+                <option value="403">403 - Hypertensive chronic kidney disease</option>
+                <option value="585">585 - Chronic kidney disease</option>
+                <option value="486">486 - Pneumonia</option>
+                <option value="496">496 - Chronic airway obstruction</option>
+                <option value="599">599 - Other disorders of urethra and urinary tract</option>
+                <option value="038">038 - Septicemia</option>
+                <option value="410">410 - Acute myocardial infarction</option>
+                <option value="427">427 - Cardiac dysrhythmias</option>
               </select>
             </div>
           </div>
         </div>
 
         <div style="text-align: center">
-          <button type="submit" class="btn">🔮 Predict Readmission Risk</button>
+          <button type="submit" class="btn">Predict Readmission Risk</button>
           <button
             type="button"
             class="btn btn-secondary"
             onclick="loadSampleData()"
           >
-            📋 Load Sample Data
+            Generate Random Sample
           </button>
           <button type="button" class="btn btn-secondary" onclick="clearForm()">
-            🗑️ Clear Form
+            Clear Form
           </button>
         </div>
       </form>
 
       <div id="result" class="result">
         <div id="loading" class="loading" style="display: none">
-          <p>🔄 Analyzing patient data...</p>
+          <p>Analyzing patient data...</p>
         </div>
         <div id="resultContent"></div>
       </div>
@@ -478,28 +473,26 @@
           loadingDiv.style.display = "block";
           resultContent.innerHTML = "";
 
-          // Collect form data
+          // Collect form data - using the new simplified field names
           const formData = new FormData(e.target);
           const data = {};
 
-          // Add all form fields
+          // Convert form data to match API expectations
           for (let [key, value] of formData.entries()) {
             // Convert numeric fields
             if (
               [
-                "encounter_id",
-                "patient_nbr",
-                "admission_type_id",
-                "discharge_disposition_id",
-                "admission_source_id",
                 "time_in_hospital",
+                "admission_type",
+                "discharge_disposition", 
+                "admission_source",
+                "num_medications",
                 "num_lab_procedures",
                 "num_procedures",
-                "num_medications",
-                "number_outpatient",
-                "number_emergency",
-                "number_inpatient",
                 "number_diagnoses",
+                "number_inpatient",
+                "number_outpatient", 
+                "number_emergency"
               ].includes(key)
             ) {
               data[key] = parseInt(value);
@@ -507,40 +500,6 @@
               data[key] = value;
             }
           }
-
-          // Add missing medication fields with default "No" values
-          const medications = [
-            "repaglinide",
-            "nateglinide",
-            "chlorpropamide",
-            "glimepiride",
-            "acetohexamide",
-            "glipizide",
-            "glyburide",
-            "tolbutamide",
-            "pioglitazone",
-            "rosiglitazone",
-            "acarbose",
-            "miglitol",
-            "troglitazone",
-            "tolazamide",
-            "examide",
-            "citoglipton",
-            "glyburide-metformin",
-            "glipizide-metformin",
-            "glimepiride-pioglitazone",
-            "metformin-rosiglitazone",
-            "metformin-pioglitazone",
-          ];
-
-          medications.forEach((med) => {
-            if (!data[med]) {
-              data[med] = "No";
-            }
-          });
-
-          // Add readmitted field (required for preprocessing)
-          data.readmitted = "NO";
 
           try {
             const response = await fetch("/predict", {
@@ -558,92 +517,168 @@
 
             if (result.status === "success") {
               resultDiv.className = "result success";
-              const prediction = result.prediction;
-              const riskClass = prediction.risk_level.toLowerCase();
+              
+              const confidenceScore = result.confidence_score;
+              const confidencePercent = (confidenceScore * 100).toFixed(1);
+              
+              // Determine risk level and styling based on confidence score
+              let riskLevel, riskClass, interpretation;
+              
+              if (confidenceScore < 0.65) {
+                riskLevel = "Low Risk";
+                riskClass = "confidence-low";
+                interpretation = "Routine discharge planning recommended. Standard follow-up care should be sufficient.";
+              } else if (confidenceScore < 0.75) {
+                riskLevel = "Medium Risk";
+                riskClass = "confidence-medium";
+                interpretation = "Enhanced discharge planning recommended. Consider additional resources and closer follow-up.";
+              } else if (confidenceScore < 0.85) {
+                riskLevel = "High Risk";
+                riskClass = "confidence-high";
+                interpretation = "Intensive discharge planning and follow-up required. Consider case management and frequent monitoring.";
+              } else {
+                riskLevel = "Very High Risk";
+                riskClass = "confidence-very-high";
+                interpretation = "Immediate intervention required. Consider extended care, frequent monitoring, or alternative discharge plans.";
+              }
 
               resultContent.innerHTML = `
-                        <h3>🎯 Prediction Results</h3>
-                        <p><strong>Patient ID:</strong> ${result.patient_id}</p>
-                        <p><strong>Encounter ID:</strong> ${
-                          result.encounter_id
-                        }</p>
-                        <p><strong>Readmission Risk:</strong> ${
-                          prediction.readmission_risk === 1 ? "YES" : "NO"
-                        }</p>
-                        <p><strong>Risk Level:</strong> <span class="risk-${riskClass}">${
-                prediction.risk_level
-              }</span></p>
-                        <p><strong>Confidence Score:</strong> ${(
-                          prediction.confidence_score * 100
-                        ).toFixed(2)}%</p>
-                        <hr>
-                        <h4>Detailed Scores:</h4>
-                        <p><strong>Probability of Readmission:</strong> ${(
-                          prediction.detailed_scores.probability_readmitted *
-                          100
-                        ).toFixed(2)}%</p>
-                        <p><strong>Probability of No Readmission:</strong> ${(
-                          prediction.detailed_scores
-                            .probability_not_readmitted * 100
-                        ).toFixed(2)}%</p>
-                        <hr>
-                        <p><small><strong>Model:</strong> ${
-                          result.model_info.model_type
-                        } (${
-                result.model_info.features_used
-              } features)</small></p>
-                    `;
+                <h3>Readmission Risk Assessment</h3>
+                <div class="confidence-score ${riskClass}">
+                  ${confidencePercent}%
+                </div>
+                <p><strong>Risk Level:</strong> ${riskLevel}</p>
+                <div class="interpretation">
+                  <h4>Clinical Interpretation:</h4>
+                  <p>${interpretation}</p>
+                </div>
+                <hr>
+                <p><small><strong>Model:</strong> SingleShotCNN with Temperature Scaling (188 engineered features)</small></p>
+                <p><small><strong>Confidence Range:</strong> Model typically produces scores between 55% and 92%</small></p>
+              `;
             } else {
               resultDiv.className = "result error";
               resultContent.innerHTML = `
-                        <h3>❌ Prediction Failed</h3>
-                        <p><strong>Error:</strong> ${
-                          result.error || "Unknown error occurred"
-                        }</p>
-                    `;
+                <h3>❌ Prediction Failed</h3>
+                <p><strong>Error:</strong> ${result.error || "Unknown error occurred"}</p>
+                ${result.required_fields ? 
+                  `<p><strong>Required fields:</strong> ${result.required_fields.join(", ")}</p>` 
+                  : ''}
+              `;
             }
           } catch (error) {
             loadingDiv.style.display = "none";
             resultDiv.className = "result error";
             resultContent.innerHTML = `
-                    <h3>❌ Connection Error</h3>
-                    <p><strong>Error:</strong> ${error.message}</p>
-                    <p>Please check if the server is running on the correct port.</p>
-                `;
+              <h3>❌ Connection Error</h3>
+              <p><strong>Error:</strong> ${error.message}</p>
+              <p>Please check if the server is running on the correct port.</p>
+            `;
           }
         });
 
       function loadSampleData() {
-        // Load the sample data provided by the user
-        document.getElementById("encounter_id").value = "2278392";
-        document.getElementById("patient_nbr").value = "8222157";
-        document.getElementById("race").value = "Caucasian";
-        document.getElementById("gender").value = "Female";
-        document.getElementById("age").value = "[0-10)";
-        document.getElementById("weight").value = "?";
-        document.getElementById("admission_type_id").value = "6";
-        document.getElementById("discharge_disposition_id").value = "25";
-        document.getElementById("admission_source_id").value = "1";
-        document.getElementById("time_in_hospital").value = "1";
-        document.getElementById("payer_code").value = "?";
-        document.getElementById("medical_specialty").value =
-          "Pediatrics-Endocrinology";
-        document.getElementById("num_lab_procedures").value = "41";
-        document.getElementById("num_procedures").value = "0";
-        document.getElementById("num_medications").value = "1";
-        document.getElementById("number_outpatient").value = "0";
-        document.getElementById("number_emergency").value = "0";
-        document.getElementById("number_inpatient").value = "0";
-        document.getElementById("diag_1").value = "250.83";
-        document.getElementById("diag_2").value = "?";
-        document.getElementById("diag_3").value = "?";
-        document.getElementById("number_diagnoses").value = "1";
-        document.getElementById("max_glu_serum").value = "None";
-        document.getElementById("A1Cresult").value = "None";
-        document.getElementById("metformin").value = "No";
-        document.getElementById("insulin").value = "No";
-        document.getElementById("change").value = "No";
-        document.getElementById("diabetesMed").value = "No";
+        // Generate random sample data for testing different scenarios
+        
+        // Random age groups with realistic distribution
+        const ageGroups = ["[30-40)", "[40-50)", "[50-60)", "[60-70)", "[70-80)", "[80-90)"];
+        const ageWeights = [0.1, 0.15, 0.25, 0.35, 0.2, 0.05]; // Higher probability for older patients
+        const selectedAge = weightedRandom(ageGroups, ageWeights);
+        
+        // Random gender
+        const gender = Math.random() > 0.5 ? "Male" : "Female";
+        
+        // Time in hospital varies by patient complexity
+        const timeInHospital = Math.floor(Math.random() * 10) + 1; // 1-10 days
+        
+        // Admission types with realistic distribution
+        const admissionTypes = ["1", "2", "3", "7"]; // Emergency, Urgent, Elective, Trauma
+        const admissionWeights = [0.6, 0.2, 0.15, 0.05]; // Emergency most common
+        const admissionType = weightedRandom(admissionTypes, admissionWeights);
+        
+        // Discharge dispositions
+        const dischargeTypes = ["1", "3", "6", "7", "11"];
+        const dischargeWeights = [0.7, 0.1, 0.1, 0.05, 0.05];
+        const dischargeDisposition = weightedRandom(dischargeTypes, dischargeWeights);
+        
+        // Admission sources
+        const admissionSources = ["1", "2", "4", "7", "9"];
+        const sourceWeights = [0.3, 0.2, 0.1, 0.35, 0.05];
+        const admissionSource = weightedRandom(admissionSources, sourceWeights);
+        
+        // Medical complexity varies
+        const numMedications = Math.floor(Math.random() * 30) + 5; // 5-35 medications
+        const numLabProcedures = Math.floor(Math.random() * 50) + 10; // 10-60 procedures
+        const numProcedures = Math.floor(Math.random() * 5); // 0-4 procedures
+        const numberDiagnoses = Math.floor(Math.random() * 10) + 1; // 1-10 diagnoses
+        
+        // Patient history varies significantly
+        const numberInpatient = Math.floor(Math.random() * 8); // 0-7 previous admissions
+        const numberOutpatient = Math.floor(Math.random() * 20); // 0-19 outpatient visits
+        const numberEmergency = Math.floor(Math.random() * 10); // 0-9 emergency visits
+        
+        // Diabetes management scenarios
+        const diabetesMed = Math.random() > 0.3 ? "Yes" : "No"; // 70% have diabetes med
+        const change = Math.random() > 0.6 ? "Ch" : "No"; // 40% have medication changes
+        
+        // Lab results with realistic distribution
+        const a1cResults = ["None", "Norm", ">7", ">8"];
+        const a1cWeights = [0.2, 0.3, 0.3, 0.2];
+        const a1cResult = weightedRandom(a1cResults, a1cWeights);
+        
+        const glucoseResults = ["None", "Norm", ">200", ">300"];
+        const glucoseWeights = [0.15, 0.6, 0.2, 0.05];
+        const maxGluSerum = weightedRandom(glucoseResults, glucoseWeights);
+        
+        // Medication patterns
+        const medicationOptions = ["No", "Steady", "Up", "Down"];
+        const medicationWeights = [0.4, 0.35, 0.15, 0.1];
+        const insulin = weightedRandom(medicationOptions, medicationWeights);
+        const metformin = weightedRandom(medicationOptions, medicationWeights);
+        
+        // Common diagnosis codes with realistic distribution
+        const diagnosisCodes = ["250", "428", "414", "401", "403", "585", "486", "496", "038", "410"];
+        const diagnosisWeights = [0.25, 0.15, 0.12, 0.12, 0.08, 0.08, 0.06, 0.06, 0.04, 0.04];
+        const diagnosis1 = weightedRandom(diagnosisCodes, diagnosisWeights);
+        
+        // Apply the generated values to the form
+        document.getElementById("age").value = selectedAge;
+        document.getElementById("gender").value = gender;
+        document.getElementById("time_in_hospital").value = timeInHospital;
+        document.getElementById("admission_type").value = admissionType;
+        document.getElementById("discharge_disposition").value = dischargeDisposition;
+        document.getElementById("admission_source").value = admissionSource;
+        document.getElementById("num_medications").value = numMedications;
+        document.getElementById("num_lab_procedures").value = numLabProcedures;
+        document.getElementById("num_procedures").value = numProcedures;
+        document.getElementById("number_diagnoses").value = numberDiagnoses;
+        document.getElementById("number_inpatient").value = numberInpatient;
+        document.getElementById("number_outpatient").value = numberOutpatient;
+        document.getElementById("number_emergency").value = numberEmergency;
+        document.getElementById("diabetesMed").value = diabetesMed;
+        document.getElementById("change").value = change;
+        document.getElementById("A1Cresult").value = a1cResult;
+        document.getElementById("max_glu_serum").value = maxGluSerum;
+        document.getElementById("insulin").value = insulin;
+        document.getElementById("metformin").value = metformin;
+        document.getElementById("diagnosis_1").value = diagnosis1;
+        
+        // Clear any previous results
+        document.getElementById("result").style.display = "none";
+      }
+      
+      // Helper function for weighted random selection
+      function weightedRandom(items, weights) {
+        const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+        let random = Math.random() * totalWeight;
+        
+        for (let i = 0; i < items.length; i++) {
+          random -= weights[i];
+          if (random <= 0) {
+            return items[i];
+          }
+        }
+        return items[items.length - 1];
       }
 
       function clearForm() {
