@@ -1,3 +1,90 @@
-# Ignore model and data files
+# SweatHogs Medical AI Prediction System - Git Ignore File
+# Humber College Capstone Project
+
+# Environment and Configuration Files
+*.env
+.env*
+config.ini
+settings.json
+
+# Model Files (too large for Git, should be stored in Git LFS or cloud storage)
 *.pkl
 *.pkt
+*.h5
+*.pt
+*.pth
+*.onnx
+*.joblib
+
+# Data Files (contains sensitive medical data, should not be in version control)
+*.csv
+*.xlsx
+*.xls
+*.json
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Generated PDF Reports (contains patient information)
+*.pdf
+reports/generated_pdfs/*
+!reports/generated_pdfs/.gitkeep
+
+# Python Cache and Virtual Environment
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+my_env/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs and Temporary Files
+*.log
+*.tmp
+*.temp
+training_log.log
+logs/
+
+# Distribution and Build Files
+build/
+dist/
+*.egg-info/
+
+# Flask Instance Folder
+instance/
+
+# Coverage Reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# pytest Cache
+.pytest_cache/
+
+# Machine Learning Experiment Tracking
+mlruns/
+.mlflow/
+wandb/
+
+# Temporary Download Files
+*.download
+*.partial   
