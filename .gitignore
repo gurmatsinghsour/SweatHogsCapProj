@@ -16,15 +16,25 @@ settings.json
 *.onnx
 *.joblib
 
-# Data Files (contains sensitive medical data, should not be in version control)
-*.csv
+# Data Files - Access Control Policy
+# Raw data: Public demo datasets (tracked with Git LFS)
+# Processed data: Private (requires team authorization)
 *.xlsx
 *.xls
-*.json
-data/raw/*
+
+# PRIVATE: Processed data and preprocessing methods (contact team for access)
 data/processed/*
-!data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/processed/README.md
+notebooks/data_preprocessing/*
+!notebooks/data_preprocessing/.gitkeep
+!notebooks/data_preprocessing/README.md
+
+# PUBLIC: Raw demo datasets (tracked with Git LFS)
+# These are anonymized datasets safe for academic use
+!data/raw/diabetic_data.csv
+!data/raw/diagnosis_num_mapping.csv
+!data/raw/medical_data.csv
 
 # Generated PDF Reports (contains patient information)
 *.pdf
