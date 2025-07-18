@@ -61,10 +61,6 @@ SweatHogsCapProj/
 ├── reports/                      # Generated report storage
 │   └── generated_pdfs/          # Automatically generated PDF reports
 ├── 
-├── tests/                        # Test and validation files
-│   ├── simple_test.py           # Basic API endpoint testing
-│   └── test_pdf_report.py       # PDF generation functionality tests
-├── 
 └── static/                       # Web interface assets
     └── index.html               # Frontend web interface for user interaction
 ```
