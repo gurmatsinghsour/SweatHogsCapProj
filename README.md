@@ -61,10 +61,6 @@ SweatHogsCapProj/
 ├── reports/                      # Generated report storage
 │   └── generated_pdfs/          # Automatically generated PDF reports
 ├── 
-├── tests/                        # Test and validation files
-│   ├── simple_test.py           # Basic API endpoint testing
-│   └── test_pdf_report.py       # PDF generation functionality tests
-├── 
 └── static/                       # Web interface assets
     └── index.html               # Frontend web interface for user interaction
 ```
@@ -287,6 +283,51 @@ The system analyzes:
 - **Project Type:** Capstone Project
 - **Year:** 2025
 
+## Data Access Policy
+
+This project implements a tiered data access system to protect intellectual property while maintaining accessibility for educational purposes:
+
+### Public Access (Available in Repository)
+- **Raw Demo Data**: Original healthcare datasets in `data/raw/` directory
+- **Model Files**: Trained models for prediction functionality
+- **Source Code**: Main application code and API implementation
+- **Documentation**: Complete project documentation and usage guides
+
+### Private Access (Contact Required)
+- **Processed Data**: Preprocessed datasets in `data/processed/` directory
+- **Preprocessing Methods**: Data cleaning and feature engineering notebooks
+- **Proprietary Algorithms**: Advanced preprocessing techniques developed by our team
+
+### Accessing Private Components
+
+If you need access to processed data or preprocessing methods for legitimate research or educational purposes, please contact our team:
+
+**Team Contact Information:**
+- **Gurmat Singh**: gurmatsinghsour@gmail.com (Deep Learning & Model Development)
+- **Minh Nhat Mai**: minhnhatmai@gmail.com (Data Preprocessing & Feature Engineering)
+- **Yuvraj Grover**: yuvrajgrover@gmail.com (Machine Learning & Model Optimization)
+- **Robert Seibel**: robertseibel@gmail.com (Data Analysis & Model Validation)
+- **Muhammed Hasnainali Saiyed**: hasnainali@gmail.com (Data Preprocessing & Machine Learning)
+
+**When contacting us, please include:**
+- Your institutional affiliation
+- Purpose of use (academic research, educational, commercial)
+- Specific components you need access to
+- Timeline for your project
+
+**Alternative Approaches:**
+- Use the raw datasets provided in `data/raw/` and develop your own preprocessing pipeline
+- Refer to our published documentation for guidance on preprocessing approaches
+- Contact us to discuss collaboration opportunities
+
+### Data Usage Guidelines
+- **Academic Use**: Generally approved for legitimate educational and research purposes
+- **Commercial Use**: Requires explicit permission and potential licensing agreements
+- **Attribution**: Please cite our project and team when using our data or methods
+- **Ethical Use**: All usage must comply with healthcare data ethics and privacy standards
+
 ## Notes
 - Ensure paths are correct when accessing files across folders.
+- Raw data is tracked using Git LFS (Large File Storage) for efficient version control.
 - Preprocessing must be completed before running any model notebooks.
+- Contact our team before attempting to access private components.
