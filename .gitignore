@@ -98,3 +98,15 @@ wandb/
 # Temporary Download Files
 *.download
 *.partial   
+# --- model/data hygiene ---
+# ignore bulky artifacts by default
+*.pt
+*.pth
+*.pkl
+*.pkt
+
+# but keep curated models in this folder tracked
+!notebooks/deep_learning/**
+# (optional) keep small sample data
+!data/sample/**
+!data/README.md
