@@ -1,5 +1,5 @@
 # SweatHogs Medical AI Prediction System
-**Humber College Capstone Project - Artifical Intelligence With Machine Learning**
+**Humber College Capstone Project - Computer Programming**
 
 **Team Members:** 
 - Gurmat Singh - Deep Learning & Model Development

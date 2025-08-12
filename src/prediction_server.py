@@ -109,6 +109,9 @@ def generate_remedy_with_llm(user_info, diagnosis, confidence):
         f"Patient information: {formatted_info}\n"
         f"Primary diagnosis: {diagnosis}\n"
         f"Readmission risk score: {confidence:.2f}\n\n"
+        f"maximum character limit is 1200 characters very strictly.\n"
+        f"donot include any special characters in the response.\n"
+        f"Provide me recommendations to avoid readmission:\n"
         f"Please provide medical insights and recommendations:"
     )
     
